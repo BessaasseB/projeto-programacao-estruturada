@@ -3,7 +3,7 @@
 int main()
 {
     
-    int 1;
+    int num1;
     
     printf("Teste");
 
