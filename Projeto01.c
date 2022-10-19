@@ -1,12 +1,9 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include <locale.h>
 
 int main(void)
 {
     
-    setlocale(LC_ALL, "Portuguese");
-
     int size;
 
     do
@@ -19,10 +16,11 @@ int main(void)
         
 
     int id[size];
-    char nome[size], email[size], sexo[size], endereco[size];
+    char nome[30], email[30], sexo[15], endereco[50];
     double altura;
     bool vacina;
 
+    
 
     return 0;
 }
