@@ -23,16 +23,6 @@ Vacina (tomou a vacina? boolean)
 #include <string.h>
 #include <time.h>
 
-int strSymbol(char string[30], int size){
-
-    int i;
-    for(i=0;i<size;i++){
-        if(string[i] == '@'){
-            return 1;
-        }
-    }
-};
-
 int main(void)
 {
 
@@ -49,7 +39,7 @@ int main(void)
 
 
 
-    int id[size], emailCheck = 0;
+    int id[size], emailCheck = 0, sexoCheck = 0;
     char nome[size][30], email[size][30], sexo[size][15], endereco[size][50], vax[size];
     double altura[size];
     bool vacina[size];
@@ -75,18 +65,18 @@ int main(void)
 
                 if(email[i][j] == '@'){
                     emailCheck = 1;
+                    break;
                 }
 
             }
             if(emailCheck == 0){
-                    printf("!!O emailo informado e invalido!!\n");
+                    printf("!!O email informado e invalido!!\n");
             }
 
         }while(emailCheck == 0);
 
-
         printf("Informe o sexo do usuario: ");
-        fgets(sexo[i], 30, stdin);
+        scanf("%[^\n]", sexo[i]);
 
         printf("Informe o endereco do usuario: ");
         fgets(endereco[i], 30, stdin);
