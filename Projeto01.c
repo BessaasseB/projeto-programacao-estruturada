@@ -1,10 +1,10 @@
 /*Utilizando os conceitos de vetor, implemente um algoritmo que:
 
-inclua até 1000 usuários;
+inclua até 1000 usuários; CHECK;
 edite um usuário;
 exclua um usuário;
 busque um usuário pelo email;
-imprima todos os usuários cadastrados;
+imprima todos os usuários cadastrados; CHECK;
 faça backup dos usuários cadastrados;
 faça restauração dos dados;
 Dados do usuário:
@@ -41,7 +41,7 @@ int main(void)
 
 
     int id[size], emailCheck = 0, sexoCheck;
-    char nome[size][30], email[size][30], sexo[size][15], endereco[size][50], vax[size];
+    char nome[size][30], email[size][30], sexo[size][15], endereco[size][50], vax[size], menuOpt;
 	char mascL[10] = {'m', 'a', 's', 'c', 'u', 'l', 'i', 'n', 'o', '\0'},
 		 mascU[10] = {'M', 'a', 's', 'c', 'u', 'l', 'i', 'n', 'o', '\0'},
 		 femL[9] = {'f', 'e', 'm', 'i', 'n', 'i', 'n', 'o', '\0'},
@@ -56,11 +56,15 @@ int main(void)
 
     for(i=0; i<size; i++){
 
+        emailCheck = 0;
+
         id[i] = rand() % 999+1;
         printf("Informe o nome do usuario ID-%d: ", id[i]);
         fgets(nome[i], 30, stdin);
 
         while(emailCheck == 0){
+
+
 
             printf("Informe o email do usuario: ");
             fgets(email[i], 30, stdin);
@@ -73,16 +77,18 @@ int main(void)
                 }
 
             }
+
             if(emailCheck == 0){
                     printf("!!O email informado e invalido!!\n");
             }
+
 
         };
 
 		do{
 			printf("Informe o sexo do usuario: ");
 	        fgets(sexo[i], 15, stdin);
-	        
+
 	        if(strncmp(sexo[i], mascL, 1) == 0){
 	        	sexoCheck = strcmp(mascL, sexo[i]);
 			}
@@ -101,10 +107,10 @@ int main(void)
 			else if(strncmp(sexo[i], ndU, 1) == 0){
 	        	sexoCheck = strcmp(ndU, sexo[i]);
 			}
-	        
-	        
+
+
 		}while(sexoCheck != -1);
-	        
+
 
 
         printf("Informe o endereco do usuario: ");
@@ -134,18 +140,62 @@ int main(void)
 
     printf("\n");
 
-    for(i=0; i<size; i++){
+    system("cls");
 
-        printf("-----USUARIO %d-----\n", id[i]);
-        printf("\nNome: %s", nome[i]);
-        printf("Email: %s", email[i]);
-        printf("Sexo: %s", sexo[i]);
-        printf("Endereco: %s", endereco[i]);
-        printf("Altura: %.2lf\n", altura[i]);
-        printf("Esta vacinado?: %c", vax[i]);
 
-        printf("\n");
+    printf("-----CADASTRO CONCLUIDO-----\n");
+    printf("-------MENU DE OPCOES-------\n");
+    printf("[A] EDITAR UM USUARIO\n");
+    printf("[B] EXCLUIR UM USUARIO\n");
+    printf("[C] BUSCAR UM USUARIO POR EMAIL\n");
+    printf("[D] IMPRIMIR TODOS OS USUARIOS CADASTRADOS\n");
+    printf("[E] BACKUP DOS USUARIOS CADASTRADOS\n");
+    printf("[F] RESTAURACAO DOS DADOS\n");
+    scanf("%c", &menuOpt);
+
+    switch(menuOpt){
+
+        case('a'):
+            printf("Escolheu a opcao A");
+            break;
+
+        case('b'):
+            printf("Escolheu a opcao B");
+            break;
+
+        case('c'):
+            printf("Escolheu a opcao C");
+            break;
+
+        case('d'):
+            printf("---USUARIOS CADASTRADOS---\n");
+
+            for(i=0; i<size; i++){
+
+                printf("\n-----USUARIO %d-----\n", id[i]);
+                printf("\nNome: %s", nome[i]);
+                printf("Email: %s", email[i]);
+                printf("Sexo: %s", sexo[i]);
+                printf("Endereco: %s", endereco[i]);
+                printf("Altura: %.2lf\n", altura[i]);
+                printf("Esta vacinado?: %c", vax[i]);
+
+                printf("\n");
+            }
+
+
+            break;
+
+        case('e'):
+            printf("Escolheu a opcao E");
+            break;
+
+        case('f'):
+            printf("Escolheu a opcao F");
+            break;
+
     }
+
 
 
     return 0;
