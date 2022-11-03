@@ -15,7 +15,7 @@ Email (string) => validação do campo: verificar se o caractere "@" aparece CHE
 Sexo (string) => validação do campo: aceitar somente as palavras Feminino, Masculino e Não declarar CHECK
 Endereço (string) CHECK
 Altura (double) => validação do campo: aceitar valores entre 1 e 2 m. CHECK
-Vacina (tomou a vacina? boolean)
+Vacina (tomou a vacina? boolean) CHECK
 */
 
 #include <stdio.h>
@@ -29,7 +29,7 @@ int main(void)
 
     srand(time(NULL));
 
-    int size, i, j, check = 0, newSize;
+    int size, i, j, newSize = 0, excludeIndex;
     char menuOpt, emailSearch[30];
     int emailCheck = 0, sexoCheck;
     char mascL[10] = {'m', 'a', 's', 'c', 'u', 'l', 'i', 'n', 'o', '\0'},
@@ -38,8 +38,8 @@ int main(void)
             femU[9] = {'F', 'e', 'm', 'i', 'n', 'i', 'n', 'o', '\0'},
             ndL[13] = {'n', 'a', 'o', ' ', 'd', 'e', 'c', 'l', 'a', 'r', 'a', 'r', '\0'},
             ndU[13] = {'N', 'a', 'o', ' ', 'd', 'e', 'c', 'l', 'a', 'r', 'a', 'r', '\0'};
-    double altura[size], alturaBkup[size];
-    bool vacina[size], vacinaBkup[size];
+    double altura[1000], alturaBkup[1000];
+    bool vacina[1000], vacinaBkup[1000];
 
 
 
@@ -51,8 +51,8 @@ int main(void)
 
         fflush(stdin);
 
-        char nome[size][30], nomeBkup[size][30], email[size][30], emailBkup[size][30], sexo[size][15], sexoBkup[size][15], endereco[size][50], enderecoBkup[size][50], vax[size];
-        int id[size], idBkup[size], userOpt;
+        char nome[1000][30], nomeBkup[1000][30], email[1000][30], emailBkup[1000][30], sexo[1000][15], sexoBkup[1000][15], endereco[1000][50], enderecoBkup[1000][50], vax[1000];
+        int id[1000], idBkup[1000], userOpt;
 
         for(i=0; i<size; i++){
 
@@ -114,7 +114,6 @@ int main(void)
                         printf("!!Sexo invalido, tente novamente!!\n");
                     }
 
-                    printf("%d", sexoCheck);
 
                 }while(sexoCheck != 0);
 
@@ -168,7 +167,8 @@ int main(void)
         printf("[D] BACKUP DOS USUARIOS CADASTRADOS\n");
         printf("[E] RESTAURACAO DOS DADOS\n");
         printf("[F] EDITAR UM USUARIO\n");
-        printf("[G] ENCERRAR PROGRAMA\n");
+        printf("[G] ADICIONAR UM USUARIO\n");
+        printf("[I] ENCERRAR PROGRAMA\n");
         scanf("%c", &menuOpt);
         fflush(stdin);
 
@@ -176,21 +176,25 @@ int main(void)
 
         case 'a':
 
-            printf("Qual usuario deseja excluir?:\n");
-            for(i=0; i<size; i++){
+            printf("Qual usuario deseja editar?:\n");
+            for(i=0; i<(size+newSize); i++){
                 printf("\nNumero: %d -- ID: %d -- Nome: %s",i, id[i], nome[i]);
             }
             scanf("%d", &userOpt);
             fflush(stdin);
 
+            printf("\nPressione ENTER para continuar!\n");
+            getch();
+
             break;
+
 
         case 'b':
 
             printf("Informe o email que deseja buscar: ");
             fgets(emailSearch, 30, stdin);
 
-            for(i=0; i<size; i++){
+            for(i=0; i<(size+newSize); i++){
                 if(strncmp(emailSearch, email[i], 30) == 0){
                     break;
                 }
@@ -217,7 +221,7 @@ int main(void)
 
         case 'c':
 
-            for(i=0; i<size; i++){
+            for(i=0; i<(size + newSize); i++){
 
                 printf("---USUARIOS CADASTRADOS---\n");
                 printf("\n-----USUARIO %d-----\n", id[i]);
@@ -241,7 +245,7 @@ int main(void)
 
         case 'd':
 
-            for(i=0; i<size; i++){
+            for(i=0; i<(size+newSize); i++){
 
                 strcpy(idBkup, id);
                 strcpy(nomeBkup, nome);
@@ -261,7 +265,7 @@ int main(void)
         case 'e':
 
             printf("De qual usario deseja restaurar os dados?:\n");
-            for(i=0; i<size; i++){
+            for(i=0; i<(size+newSize); i++){
                 printf("\nNumero: %d -- ID: %d -- Nome: %s",i, id[i], nome[i]);
             }
             scanf("%d", &userOpt);
@@ -284,9 +288,9 @@ int main(void)
 
         case 'f':
             emailCheck = 0;
-
+            
             printf("Qual usuario deseja editar?:\n");
-            for(i=0; i<size; i++){
+            for(i=0; i<(size+newSize); i++){
                 printf("\nNumero: %d -- ID: %d -- Nome: %s",i, id[i], nome[i]);
             }
             scanf("%d", &userOpt);
@@ -346,7 +350,6 @@ int main(void)
                         printf("!!Sexo invalido, tente novamente!!\n");
                     }
 
-                    printf("%d", sexoCheck);
 
                 }while(sexoCheck != 0);
 
@@ -386,12 +389,127 @@ int main(void)
 
             break;
 
+
         case 'g':
+
+        
+            
+            printf("Quantos usuarios novos deseja inserir?: ");
+            scanf("%d", &newSize);
+            fflush(stdin);
+
+            
+
+            for (i=size; i<(size+newSize); i++){
+                emailCheck = 0;
+                id[i] = rand() % 999+1;
+                printf("Informe o nome do usuario ID-%d: ", id[i]);
+                fgets(nome[i], 30, stdin);
+                fflush(stdin);
+
+
+                while(emailCheck == 0){
+
+                        printf("Informe o email do usuario: ");
+                        fgets(email[i], 30, stdin);
+                        fflush(stdin);
+
+                        for(j=0;email[i][j] != '\0';j++){
+
+                            if(email[i][j] == 64){
+                                emailCheck = 1;
+                                break;
+                            }
+
+                        }
+
+                        if(emailCheck == 0){
+                                printf("!!O email informado e invalido!!\n");
+                        }
+                };
+
+                        do{
+                            printf("Informe o sexo do usuario: ");
+                            fgets(sexo[i], 15, stdin);
+                            fflush(stdin);
+
+                            if(strncmp(sexo[i], mascL, 1) == 0){
+                                sexoCheck = strncmp(sexo[i], mascL, 9);
+                            }
+                            if(strncmp(sexo[i], mascU, 1) == 0){
+                                sexoCheck = strncmp(sexo[i], mascU, 9);
+                            }
+                            if(strncmp(sexo[i], femL, 1) == 0){
+                                sexoCheck = strncmp(sexo[i], femL, 8);
+                            }
+                            if(strncmp(sexo[i], femU, 1) == 0){
+                                sexoCheck = strncmp(sexo[i], femU, 8);
+                            }
+                            if(strncmp(sexo[i], ndL, 1) == 0){
+                                sexoCheck = strncmp(sexo[i], ndL, 12);
+                            }
+                            if(strncmp(sexo[i], ndU, 1) == 0){
+                                sexoCheck = strncmp(sexo[i], ndU, 12);
+                            }
+
+
+                            if(sexoCheck != 0){
+                                printf("!!Sexo invalido, tente novamente!!\n");
+                            }
+
+
+                        }while(sexoCheck != 0);
+
+
+
+                        printf("Informe o endereco do usuario: ");
+                        fgets(endereco[i], 30, stdin);
+                        fflush(stdin);
+
+                        do{
+                            printf("Informe a altura do usuario: ");
+                            scanf("%lf", &altura[i]);
+                            fflush(stdin);
+
+                            if(altura[i] < 1 || altura[i] > 2){
+
+                                printf("!!Altura informada invalida, informe valores entre 1m e 2m!!\n");
+                            }
+
+                        }while(altura[i] < 1 || altura[i] > 2);
+
+                        printf("O usuario esta vacinado?: ");
+                        scanf("%c", &vax[i]);
+
+                        switch(vax[i]){
+                            case 's':
+                                vacina[i] = true;
+                                break;
+
+                            case 'n':
+                                vacina[i] = false;
+                                break;
+                        }
+
+
+                        fflush(stdin);
+
+
+                        printf("\n");
+                    }
+
+            printf("\nPressione ENTER para continuar!\n");
+            getch();
+
+            break;
+
+
+        case 'h':
             printf("\n!!!PROGRAMA ENCERRADO!!!\n");
             break;
         }
 
-    }while(menuOpt != 'g');
+    }while(menuOpt != 'h');
 
 
     return 0;
