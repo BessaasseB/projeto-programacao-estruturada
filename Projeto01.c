@@ -155,6 +155,8 @@ int main(void)
                 printf("\n");
             }
 
+    int pos;
+
     do{
 
         system("cls");
@@ -168,7 +170,7 @@ int main(void)
         printf("[E] RESTAURACAO DOS DADOS\n");
         printf("[F] EDITAR UM USUARIO\n");
         printf("[G] ADICIONAR UM USUARIO\n");
-        printf("[I] ENCERRAR PROGRAMA\n");
+        printf("[H] ENCERRAR PROGRAMA\n");
         scanf("%c", &menuOpt);
         fflush(stdin);
 
@@ -180,8 +182,22 @@ int main(void)
             for(i=0; i<(size+newSize); i++){
                 printf("\nNumero: %d -- ID: %d -- Nome: %s",i, id[i], nome[i]);
             }
-            scanf("%d", &userOpt);
+            scanf("%d", &pos);
             fflush(stdin);
+
+            for(i=pos-1; i<size-1; i++){
+
+                id[i] = id[i+1];
+                strcpy(nome[i], nome[i+1]);
+                strcpy(email[i], email[i+1]);
+                strcpy(sexo[i], sexo[i+1]);
+                strcpy(endereco[i], endereco[i+1]);
+                altura[i] = altura[i+1];
+                vacina[i] = vacina[i+1];
+                
+            }
+
+            size--;
 
             printf("\nPressione ENTER para continuar!\n");
             getch();
@@ -278,8 +294,6 @@ int main(void)
             altura[userOpt] = alturaBkup[userOpt];
             vacina[userOpt] = vacinaBkup[userOpt];
 
-
-
             printf("\n!!!RESTAURACAO CONCLUIDO COM SUCESSO!!!\n");
             printf("\nPressione ENTER para continuar!\n");
             getch();
@@ -353,8 +367,6 @@ int main(void)
 
                 }while(sexoCheck != 0);
 
-
-
                 printf("Informe o endereco do usuario: ");
                 fgets(endereco[userOpt], 30, stdin);
                 fflush(stdin);
@@ -392,13 +404,9 @@ int main(void)
 
         case 'g':
 
-        
-            
             printf("Quantos usuarios novos deseja inserir?: ");
             scanf("%d", &newSize);
             fflush(stdin);
-
-            
 
             for (i=size; i<(size+newSize); i++){
                 emailCheck = 0;
@@ -460,8 +468,6 @@ int main(void)
 
                         }while(sexoCheck != 0);
 
-
-
                         printf("Informe o endereco do usuario: ");
                         fgets(endereco[i], 30, stdin);
                         fflush(stdin);
@@ -491,9 +497,7 @@ int main(void)
                                 break;
                         }
 
-
                         fflush(stdin);
-
 
                         printf("\n");
                     }
@@ -510,7 +514,6 @@ int main(void)
         }
 
     }while(menuOpt != 'h');
-
 
     return 0;
 }
