@@ -27,13 +27,7 @@ int main(void)
 
     int size, i, j, newSize = 0, excludeIndex;
     char menuOpt, emailSearch[30];
-    int emailCheck = 0, sexoCheck;
-    char mascL[10] = {'m', 'a', 's', 'c', 'u', 'l', 'i', 'n', 'o', '\0'},
-            mascU[10] = {'M', 'a', 's', 'c', 'u', 'l', 'i', 'n', 'o', '\0'},
-            femL[9] = {'f', 'e', 'm', 'i', 'n', 'i', 'n', 'o', '\0'},
-            femU[9] = {'F', 'e', 'm', 'i', 'n', 'i', 'n', 'o', '\0'},
-            ndL[13] = {'n', 'a', 'o', ' ', 'd', 'e', 'c', 'l', 'a', 'r', 'a', 'r', '\0'},
-            ndU[13] = {'N', 'a', 'o', ' ', 'd', 'e', 'c', 'l', 'a', 'r', 'a', 'r', '\0'};
+    int emailCheck = 0, sexoCheck, alturaCheck;
     double alturaBkup[1000];
     bool vacinaBkup[1000];
     char nomeBkup[1000][30], emailBkup[1000][30], sexoBkup[1000][15], enderecoBkup[1000][50];
@@ -52,6 +46,7 @@ int main(void)
 
             emailCheck = 0;
             sexoCheck = 0;
+            alturaCheck = 0;
 
             cadastro[i].id = rand() % 999+1;
             printf("Informe o nome do usuario ID-%d: ", cadastro[i].id);
@@ -64,14 +59,8 @@ int main(void)
                 fgets(cadastro[i].email, 30, stdin);
                 fflush(stdin);
 
-                for(j=0;cadastro[i].email[j] != '\0';j++){
-
-                    if(cadastro[i].email[j] == 64){
-                        emailCheck = 1;
-                        break;
-                    }
-
-                }
+                emailCheck = checkEmail(cadastro[i].email);
+                
 
                 if(emailCheck == 0){
                         printf("!!O email informado e invalido!!\n");
@@ -83,35 +72,15 @@ int main(void)
                     fgets(cadastro[i].sexo, 15, stdin);
                     fflush(stdin);
 
-                    if(strncmp(cadastro[i].sexo, mascL, 1) == 0){
-                        sexoCheck = strncmp(cadastro[i].sexo, mascL, 9);
-                    }
-                    if(strncmp(cadastro[i].sexo, mascU, 1) == 0){
-                        sexoCheck = strncmp(cadastro[i].sexo, mascU, 9);
-                    }
-                    if(strncmp(cadastro[i].sexo, femL, 1) == 0){
-                        sexoCheck = strncmp(cadastro[i].sexo, femL, 8);
-                    }
-                    if(strncmp(cadastro[i].sexo, femU, 1) == 0){
-                        sexoCheck = strncmp(cadastro[i].sexo, femU, 8);
-                    }
-                    if(strncmp(cadastro[i].sexo, ndL, 1) == 0){
-                        sexoCheck = strncmp(cadastro[i].sexo, ndL, 12);
-                    }
-                    if(strncmp(cadastro[i].sexo, ndU, 1) == 0){
-                        sexoCheck = strncmp(cadastro[i].sexo, ndU, 12);
-                    }
-
+                    sexoCheck = checkSexo(cadastro[i].sexo);
 
                     if(sexoCheck != 0){
                         printf("!!Sexo invalido, tente novamente!!\n");
                     }
 
-
                 }while(sexoCheck != 0);
 
 
-                
                 printf("Informe o CEP do usuario: ");
                 fgets(cadastro[i].endereco.cep, 8, stdin);
                 fflush(stdin);
@@ -130,13 +99,15 @@ int main(void)
                     printf("Informe a altura do usuario: ");
                     scanf("%lf", &cadastro[i].altura);
                     fflush(stdin);
+                    
+                    alturaCheck = checkAltura(cadastro[i].altura);
 
-                    if(cadastro[i].altura < 1 || cadastro[i].altura > 2){
+                    if(alturaCheck != 0){
 
                         printf("!!Altura informada invalida, informe valores entre 1m e 2m!!\n");
                     }
 
-                }while(cadastro[i].altura < 1 || cadastro[i].altura > 2);
+                }while(alturaCheck != 0);
 
                 printf("O usuario esta vacinado?: ");
                 scanf("%c", &cadastro[i].vax);
