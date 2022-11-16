@@ -9,7 +9,17 @@ typedef struct endereco{
     char rua[20], cidade[20], estado[20], cep[8];
 
 }endereco;
+
 struct cadastro{
+
+    int id;
+    char nome[30], email[30], sexo[15], vax;
+    double altura;
+    bool vacina;
+    endereco endereco;
+
+};
+struct cadastroBackup{
 
     int id;
     char nome[30], email[30], sexo[15], vax;
@@ -27,12 +37,10 @@ int main(void)
 
     int size, i, j, newSize = 0, excludeIndex;
     char menuOpt, emailSearch[30];
-    int emailCheck = 0, sexoCheck, alturaCheck;
-    double alturaBkup[1000];
-    bool vacinaBkup[1000];
-    char nomeBkup[1000][30], emailBkup[1000][30], sexoBkup[1000][15], enderecoBkup[1000][50];
-    int  idBkup[1000], userOpt;
+    int emailCheck, sexoCheck, alturaCheck;
+    int userOpt;
     struct cadastro cadastro[1000];
+    struct cadastroBackup cadastroBackup[1000];
 
         do{
             printf("Quantos usuarios serao inseridos?: ");
@@ -130,7 +138,7 @@ int main(void)
             }
 
     int pos;
-/*
+
     do{
 
         system("cls");
@@ -152,22 +160,25 @@ int main(void)
 
         case 'a':
 
-            printf("Qual usuario deseja editar?:\n");
+            printf("Qual usuario deseja deletar?:\n");
             for(i=0; i<(size+newSize); i++){
-                printf("\nNumero: %d -- ID: %d -- Nome: %s",i, id[i], nome[i]);
+                printf("\nNumero: %d -- ID: %d -- Nome: %s",i, cadastro[i].id, cadastro[i].nome);
             }
             scanf("%d", &pos);
             fflush(stdin);
 
             for(i=pos-1; i<size-1; i++){
 
-                id[i] = id[i+1];
-                strcpy(nome[i], nome[i+1]);
-                strcpy(email[i], email[i+1]);
-                strcpy(sexo[i], sexo[i+1]);
-                strcpy(endereco[i], endereco[i+1]);
-                altura[i] = altura[i+1];
-                vacina[i] = vacina[i+1];
+                cadastro[i].id = cadastro[i+1].id;
+                strcpy(cadastro[i].nome, cadastro[i+1].nome);
+                strcpy(cadastro[i].email, cadastro[i+1].email);
+                strcpy(cadastro[i].sexo, cadastro[i+1].sexo);
+                strcpy(cadastro[i].endereco.cep, cadastro[i+1].endereco.cep);
+                strcpy(cadastro[i].endereco.estado, cadastro[i+1].endereco.estado);
+                strcpy(cadastro[i].endereco.cidade, cadastro[i+1].endereco.cidade);
+                strcpy(cadastro[i].endereco.rua, cadastro[i+1].endereco.rua);
+                cadastro[i].altura = cadastro[i+1].altura;
+                cadastro[i].vacina = cadastro[i+1].vacina;
                 
             }
 
@@ -185,19 +196,22 @@ int main(void)
             fgets(emailSearch, 30, stdin);
 
             for(i=0; i<(size+newSize); i++){
-                if(strncmp(emailSearch, email[i], 30) == 0){
+                if(strncmp(emailSearch, cadastro[i].email, 30) == 0){
                     break;
                 }
             }
 
             printf("---USUARIOS CADASTRADOS---\n");
-            printf("\n-----USUARIO %d-----\n", id[i]);
-            printf("\nNome: %s", nome[i]);
-            printf("Email: %s", email[i]);
-            printf("Sexo: %s", sexo[i]);
-            printf("Endereco: %s", endereco[i]);
-            printf("Altura: %.2lf M\n", altura[i]);
-            if(vacina[i] == true){
+            printf("\n-----USUARIO %d-----\n", cadastro[i].id);
+            printf("\nNome: %s", cadastro[i].nome);
+            printf("Email: %s", cadastro[i].email);
+            printf("Sexo: %s", cadastro[i].sexo);
+            printf("Endereco: %s %s %s %s", cadastro[i].endereco.cep,
+                                            cadastro[i].endereco.estado,
+                                            cadastro[i].endereco.cidade,
+                                            cadastro[i].endereco.rua);
+            printf("Altura: %.2lf M\n", cadastro[i].altura);
+            if(cadastro[i].vacina == true){
                 printf("O usuario esta vacinado!\n");
             }
             else{
@@ -214,13 +228,16 @@ int main(void)
             for(i=0; i<(size + newSize); i++){
 
                 printf("---USUARIOS CADASTRADOS---\n");
-                printf("\n-----USUARIO %d-----\n", id[i]);
-                printf("\nNome: %s", nome[i]);
-                printf("Email: %s", email[i]);
-                printf("Sexo: %s", sexo[i]);
-                printf("Endereco: %s", endereco[i]);
-                printf("Altura: %.2lf M\n", altura[i]);
-                if(vacina[i] == true){
+                printf("\n-----USUARIO %d-----\n", cadastro[i].id);
+                printf("\nNome: %s", cadastro[i].nome);
+                printf("Email: %s", cadastro[i].email);
+                printf("Sexo: %s", cadastro[i].sexo);
+                printf("Endereco: %s %s %s %s", cadastro[i].endereco.cep,
+                                            cadastro[i].endereco.estado,
+                                            cadastro[i].endereco.cidade,
+                                            cadastro[i].endereco.rua);
+                printf("Altura: %.2lf M\n", cadastro[i].altura);
+                if(cadastro[i].vacina == true){
                     printf("O usuario esta vacinado!\n");
                 }
                 else{
@@ -237,13 +254,16 @@ int main(void)
 
             for(i=0; i<(size+newSize); i++){
 
-                strcpy(idBkup, id);
-                strcpy(nomeBkup, nome);
-                strcpy(emailBkup, email);
-                strcpy(sexoBkup, sexo);
-                strcpy(enderecoBkup, endereco);
-                strcpy(alturaBkup, altura);
-                strcpy(vacinaBkup, vacina);
+                cadastroBackup[i].id = cadastro[i].id;
+                strcpy(cadastroBackup[i].nome, cadastro[i].nome);
+                strcpy(cadastroBackup[i].email, cadastro[i].email);
+                strcpy(cadastroBackup[i].sexo, cadastro[i].sexo);
+                strcpy(cadastroBackup[i].endereco.cep, cadastro[i].endereco.cep);
+                strcpy(cadastroBackup[i].endereco.estado, cadastro[i].endereco.estado);
+                strcpy(cadastroBackup[i].endereco.cidade, cadastro[i].endereco.cidade);
+                strcpy(cadastroBackup[i].endereco.rua, cadastro[i].endereco.rua);
+                cadastroBackup[i].altura = cadastro[i].altura;
+                cadastroBackup[i].vacina = cadastro[i].vacina;
             }
 
             printf("\n!!!BACKUP CONCLUIDO COM SUCESSO!!!\n");
@@ -256,17 +276,21 @@ int main(void)
 
             printf("De qual usario deseja restaurar os dados?:\n");
             for(i=0; i<(size+newSize); i++){
-                printf("\nNumero: %d -- ID: %d -- Nome: %s",i, id[i], nome[i]);
+                printf("\nNumero: %d -- ID: %d -- Nome: %s",i, cadastro[i].id, cadastro[i].nome);
             }
             scanf("%d", &userOpt);
             fflush(stdin);
 
-            strcpy(nome[userOpt], nomeBkup[userOpt]);
-            strcpy(email[userOpt], emailBkup[userOpt]);
-            strcpy(sexo[userOpt], sexoBkup[userOpt]);
-            strcpy(endereco[userOpt], enderecoBkup[userOpt]);
-            altura[userOpt] = alturaBkup[userOpt];
-            vacina[userOpt] = vacinaBkup[userOpt];
+            cadastro[i].id = cadastroBackup[i].id;
+            strcpy(cadastro[userOpt].nome, cadastroBackup[userOpt].nome);
+            strcpy(cadastro[userOpt].email, cadastroBackup[userOpt].email);
+            strcpy(cadastro[userOpt].sexo, cadastroBackup[userOpt].sexo);
+            strcpy(cadastro[userOpt].endereco.cep, cadastroBackup[userOpt].endereco.cep);
+            strcpy(cadastro[userOpt].endereco.estado, cadastroBackup[userOpt].endereco.estado);
+            strcpy(cadastro[userOpt].endereco.cidade, cadastroBackup[userOpt].endereco.cidade);
+            strcpy(cadastro[userOpt].endereco.rua, cadastroBackup[userOpt].endereco.rua);
+            cadastro[userOpt].altura = cadastroBackup[userOpt].altura;
+            cadastro[userOpt].vacina = cadastroBackup[userOpt].vacina;
 
             printf("\n!!!RESTAURACAO CONCLUIDO COM SUCESSO!!!\n");
             printf("\nPressione ENTER para continuar!\n");
@@ -279,30 +303,23 @@ int main(void)
             
             printf("Qual usuario deseja editar?:\n");
             for(i=0; i<(size+newSize); i++){
-                printf("\nNumero: %d -- ID: %d -- Nome: %s",i, id[i], nome[i]);
+                printf("\nNumero: %d -- ID: %d -- Nome: %s",i, cadastro[i].id, cadastro[i].nome);
             }
             scanf("%d", &userOpt);
             fflush(stdin);
 
-            printf("Informe o nome do usuario ID-%d: ", id[userOpt]);
-            fgets(nome[userOpt], 30, stdin);
+            printf("Informe o nome do usuario ID-%d: ", cadastro[userOpt].id);
+            fgets(cadastro[userOpt].nome, 30, stdin);
             fflush(stdin);
 
 
             while(emailCheck == 0){
 
                 printf("Informe o email do usuario: ");
-                fgets(email[userOpt], 30, stdin);
+                fgets(cadastro[userOpt].email, 30, stdin);
                 fflush(stdin);
 
-                for(j=0;email[userOpt][j] != '\0';j++){
-
-                    if(email[userOpt][j] == 64){
-                        emailCheck = 1;
-                        break;
-                    }
-
-                }
+                emailCheck = checkEmail(cadastro[userOpt].email);
 
                 if(emailCheck == 0){
                         printf("!!O email informado e invalido!!\n");
@@ -311,28 +328,10 @@ int main(void)
 
                 do{
                     printf("Informe o sexo do usuario: ");
-                    fgets(sexo[userOpt], 15, stdin);
+                    fgets(cadastro[userOpt].sexo, 15, stdin);
                     fflush(stdin);
 
-                    if(strncmp(sexo[userOpt], mascL, 1) == 0){
-                        sexoCheck = strncmp(sexo[userOpt], mascL, 9);
-                    }
-                    if(strncmp(sexo[userOpt], mascU, 1) == 0){
-                        sexoCheck = strncmp(sexo[userOpt], mascU, 9);
-                    }
-                    if(strncmp(sexo[userOpt], femL, 1) == 0){
-                        sexoCheck = strncmp(sexo[userOpt], femL, 8);
-                    }
-                    if(strncmp(sexo[userOpt], femU, 1) == 0){
-                        sexoCheck = strncmp(sexo[userOpt], femU, 8);
-                    }
-                    if(strncmp(sexo[userOpt], ndL, 1) == 0){
-                        sexoCheck = strncmp(sexo[userOpt], ndL, 12);
-                    }
-                    if(strncmp(sexo[userOpt], ndU, 1) == 0){
-                        sexoCheck = strncmp(sexo[userOpt], ndU, 12);
-                    }
-
+                    sexoCheck = checkSexo(cadastro[userOpt].sexo);
 
                     if(sexoCheck != 0){
                         printf("!!Sexo invalido, tente novamente!!\n");
@@ -341,32 +340,43 @@ int main(void)
 
                 }while(sexoCheck != 0);
 
-                printf("Informe o endereco do usuario: ");
-                fgets(endereco[userOpt], 30, stdin);
+                printf("Informe o CEP do usuario: ");
+                fgets(cadastro[userOpt].endereco.cep, 8, stdin);
+                fflush(stdin);
+                printf("Informe o estado do usuario: ");
+                fgets(cadastro[userOpt].endereco.estado, 20, stdin);
+                fflush(stdin);
+                printf("Informe a cidade do usuario: ");
+                fgets(cadastro[userOpt].endereco.cidade, 20, stdin);
+                fflush(stdin);
+                printf("Informe a rua do usuario: ");
+                fgets(cadastro[userOpt].endereco.rua, 20, stdin);
                 fflush(stdin);
 
                 do{
                     printf("Informe a altura do usuario: ");
-                    scanf("%lf", &altura[userOpt]);
+                    scanf("%lf", &cadastro[userOpt].altura);
                     fflush(stdin);
 
-                    if(altura[userOpt] < 1 || altura[userOpt] > 2){
+                    alturaCheck = checkAltura(cadastro[userOpt].altura);
+
+                    if(alturaCheck != 0){
 
                         printf("!!Altura informada invalida, informe valores entre 1m e 2m!!\n");
                     }
 
-                }while(altura[userOpt] < 1 || altura[userOpt] > 2);
+                }while(alturaCheck != 0);
 
                 printf("O usuario esta vacinado?: ");
-                scanf("%c", &vax[userOpt]);
+                scanf("%c", &cadastro[userOpt].vax);
 
-                switch(vax[userOpt]){
+                switch(cadastro[userOpt].vax){
                     case 's':
-                        vacina[userOpt] = true;
+                        cadastro[userOpt].vacina = true;
                         break;
 
                     case 'n':
-                        vacina[userOpt] = false;
+                        cadastro[userOpt].vacina = false;
                         break;
                 }
 
@@ -384,26 +394,19 @@ int main(void)
 
             for (i=size; i<(size+newSize); i++){
                 emailCheck = 0;
-                id[i] = rand() % 999+1;
-                printf("Informe o nome do usuario ID-%d: ", id[i]);
-                fgets(nome[i], 30, stdin);
+                cadastro[i].id = rand() % 999+1;
+                printf("Informe o nome do usuario ID-%d: ", cadastro[i].id);
+                fgets(cadastro[i].nome, 30, stdin);
                 fflush(stdin);
 
 
                 while(emailCheck == 0){
 
                         printf("Informe o email do usuario: ");
-                        fgets(email[i], 30, stdin);
+                        fgets(cadastro[i].email, 30, stdin);
                         fflush(stdin);
 
-                        for(j=0;email[i][j] != '\0';j++){
-
-                            if(email[i][j] == 64){
-                                emailCheck = 1;
-                                break;
-                            }
-
-                        }
+                        emailCheck = checkEmail(cadastro[i].email);
 
                         if(emailCheck == 0){
                                 printf("!!O email informado e invalido!!\n");
@@ -412,27 +415,10 @@ int main(void)
 
                         do{
                             printf("Informe o sexo do usuario: ");
-                            fgets(sexo[i], 15, stdin);
+                            fgets(cadastro[i].sexo, 15, stdin);
                             fflush(stdin);
 
-                            if(strncmp(sexo[i], mascL, 1) == 0){
-                                sexoCheck = strncmp(sexo[i], mascL, 9);
-                            }
-                            if(strncmp(sexo[i], mascU, 1) == 0){
-                                sexoCheck = strncmp(sexo[i], mascU, 9);
-                            }
-                            if(strncmp(sexo[i], femL, 1) == 0){
-                                sexoCheck = strncmp(sexo[i], femL, 8);
-                            }
-                            if(strncmp(sexo[i], femU, 1) == 0){
-                                sexoCheck = strncmp(sexo[i], femU, 8);
-                            }
-                            if(strncmp(sexo[i], ndL, 1) == 0){
-                                sexoCheck = strncmp(sexo[i], ndL, 12);
-                            }
-                            if(strncmp(sexo[i], ndU, 1) == 0){
-                                sexoCheck = strncmp(sexo[i], ndU, 12);
-                            }
+                            sexoCheck = checkSexo(cadastro[i].sexo);
 
 
                             if(sexoCheck != 0){
@@ -442,32 +428,43 @@ int main(void)
 
                         }while(sexoCheck != 0);
 
-                        printf("Informe o endereco do usuario: ");
-                        fgets(endereco[i], 30, stdin);
+                        printf("Informe o CEP do usuario: ");
+                        fgets(cadastro[userOpt].endereco.cep, 8, stdin);
+                        fflush(stdin);
+                        printf("Informe o estado do usuario: ");
+                        fgets(cadastro[userOpt].endereco.estado, 20, stdin);
+                        fflush(stdin);
+                        printf("Informe a cidade do usuario: ");
+                        fgets(cadastro[userOpt].endereco.cidade, 20, stdin);
+                        fflush(stdin);
+                        printf("Informe a rua do usuario: ");
+                        fgets(cadastro[userOpt].endereco.rua, 20, stdin);
                         fflush(stdin);
 
                         do{
                             printf("Informe a altura do usuario: ");
-                            scanf("%lf", &altura[i]);
+                            scanf("%lf", &cadastro[i].altura);
                             fflush(stdin);
+                            
+                            alturaCheck = checkAltura(cadastro[i].altura);
 
-                            if(altura[i] < 1 || altura[i] > 2){
+                            if(alturaCheck != 0){
 
                                 printf("!!Altura informada invalida, informe valores entre 1m e 2m!!\n");
                             }
 
-                        }while(altura[i] < 1 || altura[i] > 2);
+                        }while(alturaCheck != 0);
 
                         printf("O usuario esta vacinado?: ");
-                        scanf("%c", &vax[i]);
+                        scanf("%c", &cadastro[i].vax);
 
-                        switch(vax[i]){
+                        switch(cadastro[i].vax){
                             case 's':
-                                vacina[i] = true;
+                                cadastro[i].vacina = true;
                                 break;
 
                             case 'n':
-                                vacina[i] = false;
+                                cadastro[i].vacina = false;
                                 break;
                         }
 
@@ -488,6 +485,6 @@ int main(void)
         }
 
     }while(menuOpt != 'h');
-*/
+
     return 0;
 }

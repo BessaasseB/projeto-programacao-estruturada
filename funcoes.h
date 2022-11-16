@@ -3,13 +3,20 @@
 
 int checkEmail(char email[]){
 
-    int i;
+    int i, check = 0;
 
     for(i = 0; i < 30; i++){
         if(email[i] == 64){
-            return 1;
+            check = 1;
+            break;
         }
     }
+
+    if(check == 1){
+        return 1;
+    }
+    else
+        return 0;
 }
 
 int checkSexo(char sexo[]){
